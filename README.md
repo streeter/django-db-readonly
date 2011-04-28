@@ -28,6 +28,7 @@ You shouldn't notice this at all, _unless_ you add the following line
 to your `settings.py`:
 
 ```python
+# Set to False to allow writes
 SITE_READ_ONLY = True
 ```
 
