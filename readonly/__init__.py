@@ -19,6 +19,7 @@ from readonly.exceptions import DatabaseWriteDenied
 
 logger = getLogger('django.db.backends')
 
+
 def _readonly():
     return getattr(settings, 'SITE_READ_ONLY', False)
 
@@ -26,51 +27,52 @@ def _readonly():
 class ReadOnlyCursorWrapper(object):
     """
     This is a wrapper for a database cursor.
-    
+
     This sits between django's own wrapper at
     `django.db.backends.util.CursorWrapper` and the database specific cursor at
     `django.db.backends.*.base.*CursorWrapper`. It overrides two specific
-    methods: `execute` and `executemany`. If the site is in read-only mode, then
-    the SQL is examined to see if it contains any write actions. If a write
-    is detected, an exception is raised.
-    
+    methods: `execute` and `executemany`. If the site is in read-only mode,
+    then the SQL is examined to see if it contains any write actions. If a
+    write is detected, an exception is raised.
+
     A site is in read only mode by setting the SITE_READ_ONLY setting. For
     obvious reasons, this is False by default.
-    
+
     Raises a DatabaseWriteDenied exception if writes are disabled.
     """
-    
+
     SQL_WRITE_BLACKLIST = (
         # Data Definition
         'CREATE', 'ALTER', 'RENAME', 'DROP', 'TRUNCATE',
         # Data Manipulation
-        'INSERT INTO', 'UPDATE', 'REPLACE', 'DELETE FROM', 
+        'INSERT INTO', 'UPDATE', 'REPLACE', 'DELETE FROM',
     )
-    
+
     def __init__(self, cursor):
         self.cursor = cursor
         self.readonly = _readonly()
-    
+
     def execute(self, sql, params=()):
         # Check the SQL
         if self.readonly and self._write_sql(sql):
             raise DatabaseWriteDenied
         return self.cursor.execute(sql, params)
-    
+
     def executemany(self, sql, param_list):
         # Check the SQL
         if self.readonly and self._write_sql(sql):
             raise DatabaseWriteDenied
         return self.cursor.executemany(sql, param_list)
-    
+
     def __getattr__(self, attr):
         return getattr(self.cursor, attr)
-    
+
     def __iter__(self):
         return iter(self.cursor)
-    
+
     def _write_sql(self, sql):
         return sql.startswith(self.SQL_WRITE_BLACKLIST)
+
 
 class CursorWrapper(util.CursorWrapper):
     def __init__(self, cursor, db):
@@ -95,7 +97,7 @@ class CursorDebugWrapper(CursorWrapper):
                 'time': "%.3f" % duration,
             })
             logger.debug('(%.3f) %s; args=%s' % (duration, sql, params),
-                extra={'duration':duration, 'sql':sql, 'params':params}
+                extra={'duration': duration, 'sql': sql, 'params': params}
             )
 
     def executemany(self, sql, param_list):
@@ -110,7 +112,7 @@ class CursorDebugWrapper(CursorWrapper):
                 'time': "%.3f" % duration,
             })
             logger.debug('(%.3f) %s; args=%s' % (duration, sql, param_list),
-                extra={'duration':duration, 'sql':sql, 'params':param_list}
+                extra={'duration': duration, 'sql': sql, 'params': param_list}
             )
 
 if _readonly():

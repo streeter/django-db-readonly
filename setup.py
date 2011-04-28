@@ -23,12 +23,12 @@ setup(
     author='Chris Streeter',
     author_email='pypi@chrisstreeter.com',
     url='http://github.com/streeter/django-db-readonly',
-    description = 'Add a global database read-only setting.',
+    description='Add a global database read-only setting.',
     packages=find_packages(),
     zip_safe=False,
     install_requires=[
     ],
-    test_suite = 'readonly.tests',
+    test_suite='readonly.tests',
     include_package_data=True,
     cmdclass={"test": mytest},
     classifiers=[

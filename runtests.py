@@ -7,7 +7,7 @@ from django.conf import settings
 if not settings.configured:
     settings.configure(
         DATABASE_ENGINE='sqlite3',
-        
+
         # Uncomment below to run tests with mysql
         #DATABASE_ENGINE='django.db.backends.mysql',
         #DATABASE_NAME='readonly_test',
@@ -23,11 +23,12 @@ if not settings.configured:
 
 from django.test.simple import run_tests
 
+
 def runtests(*test_args):
     if 'south' in settings.INSTALLED_APPS:
         from south.management.commands import patch_for_test_db_setup
         patch_for_test_db_setup()
-    
+
     if not test_args:
         test_args = ['readonly']
     parent = dirname(abspath(__file__))
