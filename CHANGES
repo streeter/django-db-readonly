@@ -2,4 +2,8 @@
 0.1.0
 * Initial implementation
 
-(History beyond 0.1.0 is not present)
+0.1.1
+* Minor optimizations
+* PEP 8 cleanup
+
+(History beyond 0.1.1 is not present)
