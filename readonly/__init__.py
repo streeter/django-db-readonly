@@ -19,6 +19,9 @@ from readonly.exceptions import DatabaseWriteDenied
 
 logger = getLogger('django.db.backends')
 
+def _readonly():
+    return getattr(settings, 'SITE_READ_ONLY', False)
+
 
 class ReadOnlyCursorWrapper(object):
     """
@@ -46,7 +49,7 @@ class ReadOnlyCursorWrapper(object):
     
     def __init__(self, cursor):
         self.cursor = cursor
-        self.readonly = getattr(settings, 'SITE_READ_ONLY', False)
+        self.readonly = _readonly()
     
     def execute(self, sql, params=()):
         # Check the SQL
@@ -110,6 +113,7 @@ class CursorDebugWrapper(CursorWrapper):
                 extra={'duration':duration, 'sql':sql, 'params':param_list}
             )
 
-# Monkey Patching!
-util.CursorWrapper = CursorWrapper
-util.CursorDebugWrapper = CursorDebugWrapper
+if _readonly():
+    # Monkey Patching!
+    util.CursorWrapper = CursorWrapper
+    util.CursorDebugWrapper = CursorDebugWrapper
