@@ -14,7 +14,7 @@ from time import time
 from django.conf import settings
 from django.db.backends import util
 from django.utils.log import getLogger
-from readonly.exceptions import DatabaseWriteDenied
+from .exceptions import DatabaseWriteDenied
 
 
 logger = getLogger('django.db.backends')
