@@ -21,6 +21,14 @@ pip install git+git@github.com:streeter/django-db-readonly.git
 
 You're choice. Then add `readonly` to your `INSTALLED_APPS`.
 
+```python
+INSTALLED_APPS_ = (
+    # ...
+    'readonly',
+    # ...
+)
+```
+
 
 ## Usage
 
@@ -37,6 +45,35 @@ exception. You should catch this exception and deal with it somehow. Or
 let Django display an [error 500 page][error500]. The exception you will
 want to catch is `readonly.exceptions.DatabaseWriteDenied` which inherits
 from `django.db.utils.DatabaseError`.
+
+There is also a middleware class that will handle the exceptions and attempt
+to handle them smartly. Add the following line in your `settings.py`:
+
+```python
+MIDDLEWARE_CLASSES = (
+    # ...
+    'readonly.middleware.DatabaseReadOnlyMiddleware',
+    # ...
+)
+```
+
+This will then enable the middleware which will catch `DatabaseWriteDenied`
+exceptions. If the request is a POST request, we will redirect the user to the
+same URL, but as a GET request. If the request is not a POST (ie. a GET), we
+will just display a `HttpResponse` with text telling the user the site
+is in read-only mode.
+
+In addition, the middleware class can add an error-type message using the
+`django.contrib.messages` module. Add:
+
+```python
+# Enable
+DB_READ_ONLY_MIDDLEWARE_MESSAGE = True
+```
+
+to your `settings.py` and then on POST requests that generate a
+`DatabaseWriteDenied` exception, we will add an error message informing the
+user that the site is in read-only mode.
 
 
 ## Testing
