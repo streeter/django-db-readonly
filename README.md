@@ -22,7 +22,7 @@ pip install git+git@github.com:streeter/django-db-readonly.git
 You're choice. Then add `readonly` to your `INSTALLED_APPS`.
 
 ```python
-INSTALLED_APPS_ = (
+INSTALLED_APPS = (
     # ...
     'readonly',
     # ...
