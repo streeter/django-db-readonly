@@ -19,7 +19,7 @@ class mytest(test):
 
 setup(
     name='django-db-readonly',
-    version='0.1.1',
+    version='0.2.0',
     author='Chris Streeter',
     author_email='pypi@chrisstreeter.com',
     url='http://github.com/streeter/django-db-readonly',
