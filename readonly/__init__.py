@@ -3,11 +3,10 @@ Django DB Readonly
 ~~~~~~~~~~~~~~~~~~
 """
 
-try:
-    VERSION = __import__('pkg_resources') \
-        .get_distribution('django-db-readonly').version
-except Exception, e:
-    VERSION = 'unknown'
+import pkg_resources
+
+VERSION = tuple(map(int, pkg_resources.get_distribution('django-db-readonly').version.split('.')))
+__version__ = VERSION
 
 from time import time
 

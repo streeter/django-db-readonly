@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+version = '0.2.0'
+
 try:
     from setuptools import setup, find_packages
     from setuptools.command.test import test
@@ -19,7 +21,7 @@ class mytest(test):
 
 setup(
     name='django-db-readonly',
-    version='0.2.0',
+    version=version,
     author='Chris Streeter',
     author_email='pypi@chrisstreeter.com',
     url='http://github.com/streeter/django-db-readonly',
