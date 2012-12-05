@@ -75,6 +75,19 @@ to your `settings.py` and then on POST requests that generate a
 `DatabaseWriteDenied` exception, we will add an error message informing the
 user that the site is in read-only mode.
 
+For additional messaging, there is a context processor that adds
+`SITE_READ_ONLY` into the context. Add the following line in your `settings.py`:
+
+```python
+TEMPLATE_CONTEXT_PROCESSORS = (
+    # ...
+    'readonly.context_processors.readonly_processor',
+    # ...
+)
+```
+
+And use it as you would any boolean in the template, e.g. `{% if SITE_READ_ONLY
+%} We're down for maintenance. {% endif %}`
 
 ## Testing
 
