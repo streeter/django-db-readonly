@@ -81,7 +81,7 @@ For additional messaging, there is a context processor that adds
 ```python
 TEMPLATE_CONTEXT_PROCESSORS = (
     # ...
-    'readonly.context_processors.readonly_processor',
+    'readonly.context_processors.readonly',
     # ...
 )
 ```
