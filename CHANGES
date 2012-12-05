@@ -9,4 +9,7 @@
 0.2.0
 * Add exception catching middleware
 
-(History beyond 0.2.0 is not present)
+0.3.0
+* Add `readonly` context processor
+
+(History beyond 0.3.0 is not present)
