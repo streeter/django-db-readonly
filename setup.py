@@ -2,14 +2,30 @@
 
 version = '0.3.0'
 
+import os
+import sys
+
 try:
-    from setuptools import setup, find_packages
+    from setuptools import setup
     from setuptools.command.test import test
 except ImportError:
     from ez_setup import use_setuptools
     use_setuptools()
-    from setuptools import setup, find_packages
+    from setuptools import setup
     from setuptools.command.test import test
+
+
+if sys.argv[-1] == 'publish':
+    os.system('python setup.py sdist upload')
+    sys.exit()
+
+
+packages = [
+    'readonly',
+]
+
+requires = [
+]
 
 
 class mytest(test):
@@ -26,11 +42,10 @@ setup(
     author_email='pypi@chrisstreeter.com',
     url='http://github.com/streeter/django-db-readonly',
     description='Add a global database read-only setting.',
-    packages=find_packages(),
+    packages=packages,
     license=open('LICENSE').read(),
     zip_safe=False,
-    install_requires=[
-    ],
+    install_requires=requires,
     test_suite='readonly.tests',
     include_package_data=True,
     cmdclass={"test": mytest},
