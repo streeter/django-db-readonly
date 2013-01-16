@@ -27,6 +27,7 @@ setup(
     url='http://github.com/streeter/django-db-readonly',
     description='Add a global database read-only setting.',
     packages=find_packages(),
+    license=open('LICENSE').read(),
     zip_safe=False,
     install_requires=[
     ],
@@ -37,6 +38,7 @@ setup(
         'Framework :: Django',
         'Intended Audience :: Developers',
         'Intended Audience :: System Administrators',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
