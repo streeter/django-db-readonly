@@ -123,7 +123,14 @@ contains any write actions (defined in
 detected, an exception is raised.
 
 
+License
+-------
+
+Uses the [MIT][mit] license.
+
+
 [pypi]: http://pypi.python.org/pypi/django-db-readonly/
 [error500]: http://docs.djangoproject.com/en/1.3/topics/http/urls/#handler500
 [ddt]: https://github.com/robhudson/django-debug-toolbar
 [sql-panel]: https://github.com/robhudson/django-debug-toolbar/blob/master/debug_toolbar/panels/sql.py
+[mit]: http://opensource.org/licenses/MIT

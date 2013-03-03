@@ -43,7 +43,7 @@ setup(
     url='http://github.com/streeter/django-db-readonly',
     description='Add a global database read-only setting.',
     packages=packages,
-    license=open('LICENSE').read(),
+    license='MIT',
     zip_safe=False,
     install_requires=requires,
     test_suite='readonly.tests',
