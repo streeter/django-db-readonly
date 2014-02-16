@@ -8,23 +8,13 @@ database connection's cursor wrapper. So many cursor wrappers!
 Installation
 ------------
 
-I uploaded it to
+The library is hosted on
 `PyPi <http://pypi.python.org/pypi/django-db-readonly/>`_, so you can
-grab it there if you'd like with
-
-::
+grab it there with::
 
     pip install django-db-readonly
 
-or install with pip the git address:
-
-::
-
-    pip install git+git@github.com:streeter/django-db-readonly.git
-
-You're choice. Then add ``readonly`` to your ``INSTALLED_APPS``.
-
-::
+Then add ``readonly`` to your ``INSTALLED_APPS``.::
 
     INSTALLED_APPS = (
         # ...
