@@ -12,4 +12,10 @@
 0.3.0
 * Add `readonly` context processor
 
-(History beyond 0.3.0 is not present)
+0.3.1
+* ....
+
+0.3.2
+* Fix [`_last_executed` exception](https://github.com/streeter/django-db-readonly/pull/3)
+
+(History beyond 0.3.2 is not present)
