@@ -46,6 +46,7 @@ class ReadOnlyCursorWrapper(object):
         # Data Manipulation
         'INSERT INTO', 'UPDATE', 'REPLACE', 'DELETE FROM',
     )
+    _last_executed = ''
 
     def __init__(self, cursor):
         self.cursor = cursor
