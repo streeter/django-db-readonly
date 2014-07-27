@@ -1,9 +1,9 @@
 About
 -----
 
-An way to globally disable writes to your database. This works by
+A way to globally disable writes to your database. This works by
 inserting a cursor wrapper between Django's ``CursorWrapper`` and the
-database connection's cursor wrapper. So many cursor wrappers!
+database connection's cursor wrapper.
 
 Installation
 ------------
@@ -25,8 +25,7 @@ Then add ``readonly`` to your ``INSTALLED_APPS``.::
 Usage
 -----
 
-You shouldn't notice this at all, *unless* you add the following line to
-your ``settings.py``:
+You need to add this line to your ``settings.py`` to make the database read-only:
 
 ::
 
@@ -42,7 +41,7 @@ The exception you will want to catch is
 ``django.db.utils.DatabaseError``.
 
 There is also a middleware class that will handle the exceptions and
-attempt to handle them smartly. Add the following line in your
+attempt to handle them as explained below. To enable the middleware, add the following line to your
 ``settings.py``:
 
 ::
@@ -53,8 +52,7 @@ attempt to handle them smartly. Add the following line in your
         # ...
     )
 
-This will then enable the middleware which will catch
-``DatabaseWriteDenied`` exceptions. If the request is a POST request, we
+This will then catch ``DatabaseWriteDenied`` exceptions. If the request is a POST request, we
 will redirect the user to the same URL, but as a GET request. If the
 request is not a POST (ie. a GET), we will just display a
 ``HttpResponse`` with text telling the user the site is in read-only
@@ -90,7 +88,7 @@ And use it as you would any boolean in the template, e.g.
 Testing
 -------
 
-There aren't any tests included, yet. Run it at your own peril.
+There aren't any tests included, yet. Run it at your own risk.
 
 Caveats
 -------
