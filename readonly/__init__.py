@@ -10,8 +10,14 @@ __version__ = VERSION
 
 from time import time
 
+import django
 from django.conf import settings
-from django.db.backends import util
+
+if django.VERSION < (1, 7):
+    from django.db.backends import util
+else:
+    from django.db.backends import utils as util
+
 from django.utils.log import getLogger
 from .exceptions import DatabaseWriteDenied
 
