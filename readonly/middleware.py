@@ -9,7 +9,7 @@ class HttpResponseReload(HttpResponse):
     Reload page and stay on the same page from where request was made.
     """
     status_code = 302
-    
+
     def __init__(self, request):
         HttpResponse.__init__(self)
         referer = request.META.get('HTTP_REFERER')
@@ -21,17 +21,20 @@ class DatabaseReadOnlyMiddleware(object):
         # Only process DatabaseWriteDenied exceptions
         if not isinstance(exception, DatabaseWriteDenied):
             return None
-        
+
         # Handle the exception
         if request.method == 'POST':
             if getattr(settings, 'DB_READ_ONLY_MIDDLEWARE_MESSAGE', False):
                 from django.contrib import messages
-                messages.error(request, 'The site is currently in read-only '
+                messages.error(
+                    request,
+                    'The site is currently in read-only '
                     'mode. Please try editing later.')
-            
+
             # Try to redirect to this page's GET version
             return HttpResponseReload(request)
         else:
             # We can't do anything about this error
-            return HttpResponse('The site is currently in read-only mode. '
+            return HttpResponse(
+                'The site is currently in read-only mode. '
                 'Please try again later.')
