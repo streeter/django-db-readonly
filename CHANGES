@@ -18,4 +18,7 @@
 0.3.2
 * Fix [`_last_executed` exception](https://github.com/streeter/django-db-readonly/pull/3)
 
-(History beyond 0.3.2 is not present)
+0.3.3
+* Django 1.7+ support https://github.com/streeter/django-db-readonly/pull/8
+
+(History beyond 0.3.3 is not present)
