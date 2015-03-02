@@ -10,7 +10,9 @@ from setuptools.command.test import test
 
 
 if sys.argv[-1] == 'publish':
-    os.system('python setup.py sdist upload')
+    os.system('python setup.py register sdist upload')
+    os.system('python setup.py register bdist_wheel upload')
+    os.system('python setup.py ')
     sys.exit()
 
 
