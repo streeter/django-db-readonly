@@ -28,13 +28,15 @@ class DatabaseReadOnlyMiddleware(object):
                 from django.contrib import messages
                 messages.error(
                     request,
-                    'The site is currently in read-only '
-                    'mode. Please try editing later.')
+                    getattr(settings, 'DB_READ_ONLY_ERROR_MESSAGE',
+                            'The site is currently in read-only '
+                            'mode. Please try editing later.'))
 
             # Try to redirect to this page's GET version
             return HttpResponseReload(request)
         else:
             # We can't do anything about this error
             return HttpResponse(
-                'The site is currently in read-only mode. '
-                'Please try again later.')
+                getattr(settings, 'DB_READ_ONLY_ERROR_MESSAGE',
+                        'The site is currently in read-only mode. '
+                        'Please try again later.'))

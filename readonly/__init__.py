@@ -28,6 +28,13 @@ logger = getLogger('django.db.backends')
 def _readonly():
     return getattr(settings, 'SITE_READ_ONLY', False)
 
+def _get_readonly_dbs():
+    read_on_db_names = []
+    for db_key in getattr(settings, 'DB_READ_ONLY_DATABASES', tuple()):
+        db = settings.DATABASES.get(db_key)
+        if db:
+            read_on_db_names.append(db['NAME'])
+    return read_on_db_names
 
 class ReadOnlyCursorWrapper(object):
     """
@@ -54,13 +61,15 @@ class ReadOnlyCursorWrapper(object):
     )
     _last_executed = ''
 
-    def __init__(self, cursor):
+    def __init__(self, cursor, db):
         self.cursor = cursor
+        self.db = db
         self.readonly = _readonly()
+        self.readonly_dbs = _get_readonly_dbs()
 
     def execute(self, sql, params=()):
         # Check the SQL
-        if self.readonly and self._write_sql(sql):
+        if self.readonly and self._write_sql(sql) and self._write_to_readonly_db():
             raise DatabaseWriteDenied
         return self.cursor.execute(sql, params)
 
@@ -79,10 +88,12 @@ class ReadOnlyCursorWrapper(object):
     def _write_sql(self, sql):
         return sql.startswith(self.SQL_WRITE_BLACKLIST)
 
+    def _write_to_readonly_db(self):
+        return not self.readonly_dbs or self.db.settings_dict['NAME'] in self.readonly_dbs
 
 class CursorWrapper(util.CursorWrapper):
     def __init__(self, cursor, db):
-        self.cursor = ReadOnlyCursorWrapper(cursor)
+        self.cursor = ReadOnlyCursorWrapper(cursor, db)
         self.db = db
 
 
