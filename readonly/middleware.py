@@ -1,7 +1,8 @@
-from .exceptions import DatabaseWriteDenied
 from django.conf import settings
 from django.http import HttpResponse
 from django.utils.encoding import iri_to_uri
+
+from readonly.exceptions import DatabaseWriteDenied
 
 
 class HttpResponseReload(HttpResponse):
