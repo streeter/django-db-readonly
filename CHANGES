@@ -21,4 +21,7 @@
 0.3.3
 * Django 1.7+ support https://github.com/streeter/django-db-readonly/pull/8
 
-(History beyond 0.3.3 is not present)
+0.4
+* Added per-Database configurability. https://github.com/streeter/django-db-readonly/pull/10
+
+(History beyond 0.4 is not present)
