@@ -13,7 +13,7 @@ if django.VERSION < (1, 7):
     from django.db.backends import util
 else:
     from django.db.backends import utils as util
-from django.utils.log import getLogger
+from logging import getLogger
 
 from readonly.exceptions import DatabaseWriteDenied
 
