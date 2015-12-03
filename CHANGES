@@ -24,4 +24,7 @@
 0.4
 * Added per-Database configurability. https://github.com/streeter/django-db-readonly/pull/10
 
-(History beyond 0.4 is not present)
+0.4.1
+* Django 1.9 support https://github.com/streeter/django-db-readonly/pull/11
+
+(History beyond 0.4.1 is not present)

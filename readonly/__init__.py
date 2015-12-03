@@ -2,7 +2,7 @@
 Django DB Readonly
 ~~~~~~~~~~~~~~~~~~
 """
-VERSION = (0, 4)
+VERSION = (0, 4, 1)
 __version__ = VERSION
 
 from time import time
