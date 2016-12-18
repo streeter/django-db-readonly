@@ -27,4 +27,7 @@
 0.4.1
 * Django 1.9 support https://github.com/streeter/django-db-readonly/pull/11
 
-(History beyond 0.4.1 is not present)
+0.4.2
+* Look up the `_last_executed` property on the underlying DB cursor https://github.com/streeter/django-db-readonly/pull/13
+
+(History beyond 0.4.2 is not present)
