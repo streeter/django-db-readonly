@@ -57,7 +57,6 @@ class ReadOnlyCursorWrapper(object):
         # Data Manipulation
         'INSERT INTO', 'UPDATE', 'REPLACE', 'DELETE FROM',
     )
-    _last_executed = ''
 
     def __init__(self, cursor, db):
         self.cursor = cursor
@@ -93,6 +92,9 @@ class ReadOnlyCursorWrapper(object):
             not self.readonly_dbs
             or self.db.settings_dict['NAME'] in self.readonly_dbs)
 
+    @property
+    def _last_executed(self):
+        return getattr(self.cursor, '_last_executed', '')
 
 class CursorWrapper(util.CursorWrapper):
     def __init__(self, cursor, db):
