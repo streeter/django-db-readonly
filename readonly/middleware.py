@@ -17,7 +17,7 @@ class HttpResponseReload(HttpResponse):
         self['Location'] = iri_to_uri(referer or "/")
 
 
-class DatabaseReadOnlyMiddleware(object):
+class DatabaseReadOnlyMiddleware(django.utils.deprecation.MiddlewareMixin):
     def process_exception(self, request, exception):
         # Only process DatabaseWriteDenied exceptions
         if not isinstance(exception, DatabaseWriteDenied):
