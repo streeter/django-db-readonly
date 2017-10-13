@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-version = '0.4.2'
+version = '0.5.0'
 
 import os
 import sys
@@ -49,7 +49,6 @@ setup(
         'Intended Audience :: System Administrators',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python',
         'Topic :: Software Development',

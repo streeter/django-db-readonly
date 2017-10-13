@@ -30,4 +30,7 @@
 0.4.2
 * Look up the `_last_executed` property on the underlying DB cursor https://github.com/streeter/django-db-readonly/pull/13
 
-(History beyond 0.4.2 is not present)
+0.5.0
+* Add support for Django 1.10 and 1.11 by using the new style middleware https://github.com/streeter/django-db-readonly/pull/16
+
+(History beyond 0.5.0 is not present)
