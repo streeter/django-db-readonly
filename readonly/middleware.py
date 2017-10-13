@@ -1,6 +1,13 @@
 from django.conf import settings
 from django.http import HttpResponse
 from django.utils.encoding import iri_to_uri
+try:
+    # Django 1.10+
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    # Before Django 1.9 and below
+    class MiddlewareMixin(object):
+        pass
 
 from readonly.exceptions import DatabaseWriteDenied
 
@@ -17,7 +24,7 @@ class HttpResponseReload(HttpResponse):
         self['Location'] = iri_to_uri(referer or "/")
 
 
-class DatabaseReadOnlyMiddleware(django.utils.deprecation.MiddlewareMixin):
+class DatabaseReadOnlyMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
         # Only process DatabaseWriteDenied exceptions
         if not isinstance(exception, DatabaseWriteDenied):
