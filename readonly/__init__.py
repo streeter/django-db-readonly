@@ -55,7 +55,7 @@ class ReadOnlyCursorWrapper(object):
         # Data Definition
         'CREATE', 'ALTER', 'RENAME', 'DROP', 'TRUNCATE',
         # Data Manipulation
-        'INSERT INTO', 'UPDATE', 'REPLACE', 'DELETE FROM',
+        'INSERT', 'UPDATE', 'REPLACE', 'DELETE',
     )
 
     def __init__(self, cursor, db, read_only=None, readonly_dbs=None):
@@ -91,7 +91,7 @@ class ReadOnlyCursorWrapper(object):
         return iter(self.cursor)
 
     def _write_sql(self, sql):
-        return sql.startswith(self.SQL_WRITE_BLACKLIST)
+        return any(s.strip().upper().startswith(self.SQL_WRITE_BLACKLIST) for s in sql.split(';'))
 
     def _write_to_readonly_db(self):
         return (
