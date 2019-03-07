@@ -94,8 +94,7 @@ class ReadOnlyCursorWrapper(object):
         return any(s.strip().upper().startswith(self.SQL_WRITE_BLACKLIST) for s in sql.split(';'))
 
     def _write_to_readonly_db(self):
-        return (
-                not self.readonly_dbs
+        return (not self.readonly_dbs
                 or self.db.settings_dict['NAME'] in self.readonly_dbs)
 
     @property
