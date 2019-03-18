@@ -2,9 +2,7 @@
 Django DB Readonly
 ~~~~~~~~~~~~~~~~~~
 """
-VERSION = (0, 5, 0)
-__version__ = VERSION
-
+from logging import getLogger
 from time import time
 
 import django
@@ -14,9 +12,11 @@ if django.VERSION < (1, 7):
     from django.db.backends import util
 else:
     from django.db.backends import utils as util
-from logging import getLogger
 
 from readonly.exceptions import DatabaseWriteDenied
+
+VERSION = (0, 5, 0)
+__version__ = VERSION
 
 logger = getLogger('django.db.backends')
 
@@ -72,9 +72,12 @@ class ReadOnlyCursorWrapper(object):
 
     def execute(self, sql, params=()):
         # Check the SQL
-        if (self.readonly
-                and self._write_sql(sql)
-                and self._write_to_readonly_db()):
+        write_attempted = (
+            self.readonly
+            and self._write_sql(sql)
+            and self._write_to_readonly_db()
+        )
+        if write_attempted:
             raise DatabaseWriteDenied
         return self.cursor.execute(sql, params)
 
@@ -91,7 +94,10 @@ class ReadOnlyCursorWrapper(object):
         return iter(self.cursor)
 
     def _write_sql(self, sql):
-        return any(s.strip().upper().startswith(self.SQL_WRITE_BLACKLIST) for s in sql.split(';'))
+        return any(
+            s.strip().upper().startswith(self.SQL_WRITE_BLACKLIST)
+            for s in sql.split(';')
+        )
 
     def _write_to_readonly_db(self):
         return (not self.readonly_dbs

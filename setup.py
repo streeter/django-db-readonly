@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-version = '0.5.0'
-
 import os
 import sys
 
 from setuptools import setup
 from setuptools.command.test import test
+
+version = '0.5.0'
 
 
 if sys.argv[-1] == 'publish':
@@ -28,6 +28,7 @@ class mytest(test):
         runtests()
         # Upgrade().run(dist=True)
         # test.run(self, *args, **kwargs)
+
 
 setup(
     name='django-db-readonly',
