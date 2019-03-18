@@ -33,4 +33,7 @@
 0.5.0
 * Add support for Django 1.10 and 1.11 by using the new style middleware https://github.com/streeter/django-db-readonly/pull/16
 
-(History beyond 0.5.0 is not present)
+0.6.0
+* Improve parsing of write queries to handle more types and multiple queries per statement https://github.com/streeter/django-db-readonly/pull/17
+
+(History beyond 0.6.0 is not present)

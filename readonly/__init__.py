@@ -15,7 +15,7 @@ else:
 
 from readonly.exceptions import DatabaseWriteDenied
 
-VERSION = (0, 5, 0)
+VERSION = (0, 6, 0)
 __version__ = VERSION
 
 logger = getLogger('django.db.backends')
