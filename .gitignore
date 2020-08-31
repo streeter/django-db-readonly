@@ -1,11 +1,41 @@
-/build
-/dist
-/*.egg-info
-*.pyc
-*.log
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Installer logs
 pip-log.txt
-.DS_Store
-/example_project/local_settings.py
-/docs/html
-/docs/doctrees
-.idea
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Testing
+*.bin
+*.pem
+*.cer
+.pytest_cache

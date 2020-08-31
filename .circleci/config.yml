@@ -1,0 +1,109 @@
+version: 2.1
+
+references:
+  setup_py2_venv: &setup_py2_venv
+    run:
+      name: setup venv
+      command: |
+        mkdir -p ./venv
+        virtualenv venv
+  setup_py3_venv: &setup_py3_venv
+    run:
+      name: setup venv
+      command: |
+        python3 -m venv venv
+  install_deps: &install_deps
+    run:
+      name: install python dependencies
+      command: |
+        . venv/bin/activate
+        pip install -e .[test]
+  test: &test
+    run:
+      name: run tests
+      command: |
+        . venv/bin/activate
+        flake8
+        pytest
+
+workflows:
+  build_and_deploy:
+    jobs:
+      - build_python2:
+          filters:
+            tags:
+              only: /.*/
+      - build_python3:
+          filters:
+            tags:
+              only: /.*/
+      - deploy:
+          requires:
+            - build_python2
+            - build_python3
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
+
+jobs:
+  build_python2:
+    docker:
+      - image: circleci/python:2
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-py2-cache-{{ checksum "setup.py" }}
+      - *setup_py2_venv
+      - *install_deps
+      - save_cache:
+          key: v1-py2-cache-{{ checksum "setup.py" }}
+          paths:
+            - "venv"
+      - *test
+  build_python3:
+    docker:
+      - image: circleci/python:3
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-py3-cache-{{ checksum "setup.py" }}
+      - *setup_py3_venv
+      - *install_deps
+      - save_cache:
+          key: v1-py3-cache-{{ checksum "setup.py" }}
+          paths:
+            - "venv"
+      - *test
+  deploy:
+    docker:
+      - image: circleci/python:3
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-py3-cache-{{ checksum "setup.py" }}
+      - *setup_py3_venv
+      - *install_deps
+      - save_cache:
+          key: v1-py3-cache-{{ checksum "setup.py" }}
+          paths:
+            - "venv"
+      - run:
+          name: init .pypirc
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = streeter" >> ~/.pypirc
+            echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+      - run:
+          name: create packages
+          command: |
+            . venv/bin/activate
+            pip install -U setuptools wheel
+            python setup.py sdist bdist_wheel
+      - run:
+          name: upload to pypi
+          command: |
+            . venv/bin/activate
+            pip install twine
+            twine upload dist/*
