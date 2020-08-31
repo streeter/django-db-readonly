@@ -14,12 +14,12 @@ def _is_readonly():
 
 
 def _get_readonly_dbs():
-    read_on_db_names = []
+    read_only_db_names = []
     for db_key in getattr(settings, "DB_READ_ONLY_DATABASES", tuple()):
         db = settings.DATABASES.get(db_key)
         if db:
-            read_on_db_names.append(db["NAME"])
-    return read_on_db_names
+            read_only_db_names.append(db["NAME"])
+    return read_only_db_names
 
 
 class ReadOnlyCursorWrapper(object):
@@ -54,16 +54,12 @@ class ReadOnlyCursorWrapper(object):
     )
 
     def __init__(self, cursor, db, read_only=None, readonly_dbs=None):
-
-        if read_only is None:
-            read_only = _is_readonly()
-        if readonly_dbs is None:
-            readonly_dbs = _get_readonly_dbs()
-
         self.cursor = cursor
         self.db = db
-        self.readonly = read_only
-        self.readonly_dbs = readonly_dbs
+        self.readonly = _is_readonly() if read_only is None else read_only
+        self.readonly_dbs = (
+            _get_readonly_dbs() if readonly_dbs is None else readonly_dbs
+        )
 
     def execute(self, sql, params=()):
         # Check the SQL
@@ -93,9 +89,15 @@ class ReadOnlyCursorWrapper(object):
         )
 
     def _write_to_readonly_db(self):
-        return (
-            not self.readonly_dbs or self.db.settings_dict["NAME"] in self.readonly_dbs
-        )
+        """"
+        Is this an access to a readonly database?
+        """"
+        if not self.readonly_dbs:
+            # All dbs are readonly
+            return True
+
+        # Is the db in this list of readonly dbs?
+        return self.db.settings_dict["NAME"] in self.readonly_dbs
 
     @property
     def _last_executed(self):

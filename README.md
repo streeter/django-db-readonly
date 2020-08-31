@@ -69,7 +69,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 ```
 
-And use it as you would any boolean in the template, e.g. `{% if SITE_READ_ONLY %} We're down for maintenance. {% endif %}`
+And use it as you would any boolean in the template, e.g. `{% if SITE_READ_ONLY %}We're down for maintenance.{% endif %}`
+
+## Configuration
+
+- `SITE_READ_ONLY` - Use to disable writes to the database.
+- `DB_READ_ONLY_DATABASES` - A list of database names that read only is enforced on (and ignored for others).
+- `DB_READ_ONLY_MIDDLEWARE_MESSAGE` - A custom message that can be used to tell the user when the DB is in readonly mode.
 
 ## Testing
 
