@@ -89,9 +89,9 @@ class ReadOnlyCursorWrapper(object):
         )
 
     def _write_to_readonly_db(self):
-        """"
+        """
         Is this an access to a readonly database?
-        """"
+        """
         if not self.readonly_dbs:
             # All dbs are readonly
             return True
