@@ -8,4 +8,3 @@ def test_context_processor():
     context = readonly.context_processors.readonly(request)
     assert "SITE_READ_ONLY" in context
     assert context["SITE_READ_ONLY"] == settings.SITE_READ_ONLY
-
