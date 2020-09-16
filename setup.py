@@ -25,5 +25,4 @@ setup(
     package_dir={"readonly": "readonly"},
     install_requires=["Django>=1.9"],
     extras_require={"test": ["pytest", "pytest-django", "flake8"]},
-    tests_require=["readonly[test]"],
 )
